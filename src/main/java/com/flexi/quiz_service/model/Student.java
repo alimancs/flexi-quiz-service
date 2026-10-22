@@ -10,6 +10,8 @@ public class Student {
 
     private String fullname;
     private String password;
+
+    @Column(unique=true, nullable=false)
     private String email;
 
     public Student() {};
