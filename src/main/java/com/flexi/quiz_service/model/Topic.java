@@ -14,7 +14,6 @@ public class Topic {
     private String description;
 
     public Topic(){};
-
     public Topic(String name, String description) {
         this.name=name;
         this.description=description;
