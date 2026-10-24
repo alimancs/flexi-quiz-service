@@ -1,54 +1,64 @@
 import jakarta.persistence.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 @Entity
-@Table(name="attemptanswers", schema="attemptanswer")
+@Table(name="attempt_answers", schema="attemptanswer")
 public class AttemptAnswer {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    private Long attempt_id;
-    private Long question_id;
+    @ManyToOne(fetch=FetchType.LAZY, optional=false)
+    @JoinColumn(name="attempt_id", nullable=false)
+    @JsonIgnore
+    private Attempt attempt;
 
-    @Column(nullable=true)
-    private Long selected_option_id;
+    @ManyToOne(fetch=FetchType.LAZY, optional=false)
+    @JoinColumn(name="question_id", nullable=false)
+    @JsonIgnore
+    private Question question;
+
+    @ManyToOne(fetch=FetchType.LAZY, optional=false)
+    @JoinColumn(name="selected_option_id", nullable=true)
+    @JsonIgnore
+    private QuestionOption selected_option;
 
     private Boolean is_correct;
     private Integer marks_awarded;
 
     public AttemptAnswer(){};
     public AttemptAnswer(
-        Long attempt_id,
-        Long question_id,
+        Attempt attempt,
+        Question question,
         Boolean is_correct,
         Integer marks_awarded
     ){
-        this.attempt_id=attempt_id;
-        this.question_id=question_id;
+        this.attempt=attempt;
+        this.question=question;
         this.is_correct=is_correct;
         this.marks_awarded=marks_awarded;
     }
     public AttemptAnswer(
-        Long attempt_id,
-        Long question_id,
+        Attempt attempt,
+        Question question,
         Boolean is_correct,
         Integer marks_awarded,
-        Long selected_option_id
+        QuestionOption selected_option
     ){
-        this.attempt_id=attempt_id;
-        this.question_id=question_id;
+        this.attempt=attempt;
+        this.question=question;
         this.is_correct=is_correct;
         this.marks_awarded=marks_awarded;
-        this.selected_option_id=selected_option_id;
+        this.selected_option=selected_option;
     }
 
     public Long getId(){ return id; };
 
-    public Long getAttemptId(){ return attempt_id; };
-    public void setAttemptId(Long newAttemptId){ this.attempt_id=newAttemptId; };
+    public Attempt getAttempt(){ return attempt; };
+    public void setAttemptId(Attempt newAttempt){ this.attempt=newAttempt; };
 
-    public Long getQuestionId(){ return question_id; };
-    public void setQuestionid(Long newQuestionId){ this.question_id=newQuestionId; };
+    public Question getQuestion(){ return question; };
+    public void setQuestionid(Question newQuestion){ this.question=newQuestion; };
 
     public Boolean getIsCorrect(){ return is_correct; };
     public void setIsCorrect(Boolean newIsCorrect){ this.is_correct=newIsCorrect; };
@@ -56,7 +66,7 @@ public class AttemptAnswer {
     public Integer getMarksAwarded(){ return marks_awarded; };
     public void setMarksAwarded(Integer newMarksAwarded){ this.marks_awarded=newMarksAwarded; };
 
-    public Long getSelectedOptionId(){ return selected_option_id; };
-    public void setSelectedOptionId(Long newSelectedOptionId){ this.selected_option_id=newSelectedOptionId; };
+    public QuestionOption getSelectedOptionId(){ return selected_option; };
+    public void setSelectedOptionId(QuestionOption newSelectedOption){ this.selected_option=newSelectedOption; };
 
 }
