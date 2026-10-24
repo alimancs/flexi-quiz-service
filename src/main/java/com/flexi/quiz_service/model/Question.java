@@ -1,5 +1,7 @@
 import jakarta.persistence.*;
 import java.time.Instant;
+import net.minidev.json.annotate.JsonIgnore;
+
 
 enum Difficulty {
     EASY,
@@ -16,8 +18,12 @@ public class Question {
     
     @Column(nullable=true)
     private Difficulty difficulty;
+    
+    @ManyToOne(fetch=FetchType.LAZY, optional=false)
+    @JoinColumn(name="topic_id", nullable=false)
+    @JsonIgnore
+    private Topic topic;
 
-    private Long topic_id;
     private String text;
     private Boolean active;
     private String created_by;
@@ -29,13 +35,13 @@ public class Question {
     private Instant updated_at;
     
     public Question(){};
-    public Question(Long topic_id, String text, String created_by) {
-        this.topic_id=topic_id;
+    public Question(Topic topic, String text, String created_by) {
+        this.topic=topic;
         this.text=text;
         this.created_by=created_by;
     }
-    public Question(Long topic_id, String text, Difficulty difficulty, String created_by) {
-        this.topic_id=topic_id;
+    public Question(Topic topic, String text, Difficulty difficulty, String created_by) {
+        this.topic=topic;
         this.text=text;
         this.difficulty=difficulty;
         this.created_by=created_by;
@@ -57,11 +63,11 @@ public class Question {
         return id;
     }
 
-    public Long getTopicId() {
-        return topic_id;
+    public Topic getTopic() {
+        return topic;
     }
-    public void setTopicId(Long newTopicId) {
-        this.topic_id=newTopicId;
+    public void setTopic(Topic newTopic) {
+        this.topic=newTopic;
     }
 
     public String getText() {

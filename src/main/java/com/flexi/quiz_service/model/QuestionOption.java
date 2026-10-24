@@ -1,4 +1,7 @@
+
+
 import jakarta.persistence.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 enum OptionLabel {
     A,
@@ -8,20 +11,24 @@ enum OptionLabel {
 }
 
 @Entity
-@Table(name="questionoptions", schema="questionoption")
+@Table(name="question_options", schema="questionoption")
 public class QuestionOption {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+    
+    @ManyToOne(fetch=FetchType.LAZY, optional=false)
+    @JoinColumn(name="question_id", nullable=false)
+    @JsonIgnore
+    private Question question;
 
-    private Long question_id;
     private String text;
     private Boolean is_correct;
     private OptionLabel label;
 
     public QuestionOption(){};
-    public QuestionOption(Long question_id, String text, Boolean is_correct, OptionLabel label) {
-        this.question_id=question_id;
+    public QuestionOption(Question question, String text, Boolean is_correct, OptionLabel label) {
+        this.question=question;
         this.text=text;
         this.is_correct=is_correct;
         this.label=label;
@@ -31,11 +38,11 @@ public class QuestionOption {
         return id;
     }
 
-    public Long getQuestionId() {
-        return question_id;
+    public Question getQuestion() {
+        return question;
     }
-    public void setQuestionId(Long newQuestionId) {
-        this.question_id=newQuestionId;
+    public void setQuestion(Question newQuestion) {
+        this.question=newQuestion;
     }
 
     public String getText() {
