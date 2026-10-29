@@ -1,11 +1,9 @@
+package com.flexi.quiz_service.model;
+
+import com.flexi.quiz_service.types.ExamStatus;
 import jakarta.persistence.*;
 import java.time.Instant;
 
-enum ExamStatus {
-    DRAFT,
-    PUBLISHED,
-    CLOSED
-}
 
 @Entity
 @Table(name="exams", schema="exam")

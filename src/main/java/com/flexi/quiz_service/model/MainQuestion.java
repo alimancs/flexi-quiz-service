@@ -1,6 +1,8 @@
+package com.flexi.quiz_service.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.Instant;
-import net.minidev.json.annotate.JsonIgnore;
 
 
 enum Difficulty {
@@ -11,7 +13,7 @@ enum Difficulty {
 
 @Entity
 @Table(name="questions", schema="question")
-public class Question {
+public class MainQuestion {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
@@ -34,13 +36,13 @@ public class Question {
     @Column(nullable=false)
     private Instant updated_at;
     
-    public Question(){};
-    public Question(Topic topic, String text, String created_by) {
+    public MainQuestion(){};
+    public MainQuestion(Topic topic, String text, String created_by) {
         this.topic=topic;
         this.text=text;
         this.created_by=created_by;
     }
-    public Question(Topic topic, String text, Difficulty difficulty, String created_by) {
+    public MainQuestion(Topic topic, String text, Difficulty difficulty, String created_by) {
         this.topic=topic;
         this.text=text;
         this.difficulty=difficulty;

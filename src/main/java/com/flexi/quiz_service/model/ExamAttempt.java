@@ -1,3 +1,5 @@
+package com.flexi.quiz_service.model;
+
 import jakarta.persistence.*;
 import java.time.Instant;
 
@@ -9,7 +11,7 @@ enum AttemptStatus {
 
 @Entity
 @Table(name="attempts", schema="attempt")
-public class Attempt {
+public class ExamAttempt {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
@@ -34,8 +36,8 @@ public class Attempt {
     private Integer wrong_count;
     private Integer unanswered_count;
 
-    public Attempt(){};
-    public Attempt(
+    public ExamAttempt(){};
+    public ExamAttempt(
         Long exam_id,
         Long student_id,
         String token_hash,

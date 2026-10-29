@@ -1,5 +1,9 @@
+package com.flexi.quiz_service.model;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import net.minidev.json.annotate.JsonIgnore;
+
 
 @Entity
 @Table(name="attempt_answers", schema="attemptanswer")
@@ -11,25 +15,25 @@ public class AttemptAnswer {
     @ManyToOne(fetch=FetchType.LAZY, optional=false)
     @JoinColumn(name="attempt_id", nullable=false)
     @JsonIgnore
-    private Attempt attempt;
+    private ExamAttempt attempt;
 
     @ManyToOne(fetch=FetchType.LAZY, optional=false)
     @JoinColumn(name="question_id", nullable=false)
     @JsonIgnore
-    private Question question;
+    private MainQuestion question;
 
     @ManyToOne(fetch=FetchType.LAZY, optional=false)
     @JoinColumn(name="selected_option_id", nullable=true)
     @JsonIgnore
-    private QuestionOption selected_option;
+    private MainQuestionOption selected_option;
 
     private Boolean is_correct;
     private Integer marks_awarded;
 
     public AttemptAnswer(){};
     public AttemptAnswer(
-        Attempt attempt,
-        Question question,
+        ExamAttempt attempt,
+        MainQuestion question,
         Boolean is_correct,
         Integer marks_awarded
     ){
@@ -39,11 +43,11 @@ public class AttemptAnswer {
         this.marks_awarded=marks_awarded;
     }
     public AttemptAnswer(
-        Attempt attempt,
-        Question question,
+        ExamAttempt attempt,
+        MainQuestion question,
         Boolean is_correct,
         Integer marks_awarded,
-        QuestionOption selected_option
+        MainQuestionOption selected_option
     ){
         this.attempt=attempt;
         this.question=question;
@@ -54,11 +58,11 @@ public class AttemptAnswer {
 
     public Long getId(){ return id; };
 
-    public Attempt getAttempt(){ return attempt; };
-    public void setAttemptId(Attempt newAttempt){ this.attempt=newAttempt; };
+    public ExamAttempt getAttempt(){ return attempt; };
+    public void setAttemptId(ExamAttempt newAttempt){ this.attempt=newAttempt; };
 
-    public Question getQuestion(){ return question; };
-    public void setQuestionid(Question newQuestion){ this.question=newQuestion; };
+    public MainQuestion getQuestion(){ return question; };
+    public void setQuestionid(MainQuestion newQuestion){ this.question=newQuestion; };
 
     public Boolean getIsCorrect(){ return is_correct; };
     public void setIsCorrect(Boolean newIsCorrect){ this.is_correct=newIsCorrect; };
@@ -66,7 +70,7 @@ public class AttemptAnswer {
     public Integer getMarksAwarded(){ return marks_awarded; };
     public void setMarksAwarded(Integer newMarksAwarded){ this.marks_awarded=newMarksAwarded; };
 
-    public QuestionOption getSelectedOptionId(){ return selected_option; };
-    public void setSelectedOptionId(QuestionOption newSelectedOption){ this.selected_option=newSelectedOption; };
+    public MainQuestionOption getSelectedOptionId(){ return selected_option; };
+    public void setSelectedOptionId(MainQuestionOption newSelectedOption){ this.selected_option=newSelectedOption; };
 
 }

@@ -1,5 +1,7 @@
+package com.flexi.quiz_service.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import net.minidev.json.annotate.JsonIgnore;
 
 @Entity
 @Table(name="exam_questions", schema="examquestion")
@@ -16,18 +18,18 @@ public class ExamQuestion {
     @ManyToOne(fetch=FetchType.LAZY, optional=false)
     @JoinColumn(name="question_id", nullable=false)
     @JsonIgnore
-    private Question question;
+    private MainQuestion question;
 
     private Integer position;
     private Integer marks = 1;
 
     public ExamQuestion(){};
-    public ExamQuestion(Exam exam, Question question, Integer position) {
+    public ExamQuestion(Exam exam, MainQuestion question, Integer position) {
         this.exam=exam;
         this.question=question;
         this.position=position;
     }
-    public ExamQuestion(Exam exam, Question question, Integer position, Integer marks) {
+    public ExamQuestion(Exam exam, MainQuestion question, Integer position, Integer marks) {
         this.exam=exam;
         this.question=question;
         this.position=position;
@@ -39,8 +41,8 @@ public class ExamQuestion {
     public Exam getExamId(){ return exam; };
     public void setExamId(Exam newExam){ this.exam=newExam; };
 
-    public Question getQuestion(){ return question; };
-    public void setQuestion(Question newQuestion){ this.question=newQuestion; };
+    public MainQuestion getQuestion(){ return question; };
+    public void setQuestion(MainQuestion newQuestion){ this.question=newQuestion; };
 
     public Integer getPosition(){ return position; };
     public void setPosition(Integer newPosition){ this.position=newPosition; };

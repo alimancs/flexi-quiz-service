@@ -1,3 +1,5 @@
+package com.flexi.quiz_service.model;
+
 import jakarta.persistence.*;
 
 @Entity

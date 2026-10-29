@@ -1,7 +1,7 @@
+package com.flexi.quiz_service.model;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import net.minidev.json.annotate.JsonIgnore;
 
 enum OptionLabel {
     A,
@@ -12,7 +12,7 @@ enum OptionLabel {
 
 @Entity
 @Table(name="question_options", schema="questionoption")
-public class QuestionOption {
+public class MainQuestionOption {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
@@ -20,14 +20,14 @@ public class QuestionOption {
     @ManyToOne(fetch=FetchType.LAZY, optional=false)
     @JoinColumn(name="question_id", nullable=false)
     @JsonIgnore
-    private Question question;
+    private MainQuestion question;
 
     private String text;
     private Boolean is_correct;
     private OptionLabel label;
 
-    public QuestionOption(){};
-    public QuestionOption(Question question, String text, Boolean is_correct, OptionLabel label) {
+    public MainQuestionOption(){};
+    public MainQuestionOption(MainQuestion question, String text, Boolean is_correct, OptionLabel label) {
         this.question=question;
         this.text=text;
         this.is_correct=is_correct;
@@ -38,10 +38,10 @@ public class QuestionOption {
         return id;
     }
 
-    public Question getQuestion() {
+    public MainQuestion getQuestion() {
         return question;
     }
-    public void setQuestion(Question newQuestion) {
+    public void setQuestion(MainQuestion newQuestion) {
         this.question=newQuestion;
     }
 
