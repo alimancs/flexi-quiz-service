@@ -1,14 +1,8 @@
 package com.flexi.quiz_service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.flexi.quiz_service.types.OptionLabel;
 import jakarta.persistence.*;
-
-enum OptionLabel {
-    A,
-    B,
-    C,
-    D
-}
 
 @Entity
 @Table(name="question_options", schema="questionoption")
@@ -24,9 +18,17 @@ public class MainQuestionOption {
 
     private String text;
     private Boolean is_correct;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false)
     private OptionLabel label;
 
     public MainQuestionOption(){};
+    public MainQuestionOption(String text, Boolean is_correct, OptionLabel label) {
+        this.text=text;
+        this.is_correct=is_correct;
+        this.label=label;
+    }
     public MainQuestionOption(MainQuestion question, String text, Boolean is_correct, OptionLabel label) {
         this.question=question;
         this.text=text;

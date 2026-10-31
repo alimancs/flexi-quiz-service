@@ -34,7 +34,7 @@ public class QuestionsController {
             Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
 
             if (q!=null && !q.isEmpty()) {
-                return ResponseEntity.ok(questionRepository.findByTopicIdAndText(topicId, q, pageable));
+                return ResponseEntity.ok(questionRepository.findByTopic_IdAndText(topicId, q, pageable));
             }
 
             return ResponseEntity.ok(questionRepository.findByTopic_Id(topicId, pageable));
@@ -51,7 +51,7 @@ public class QuestionsController {
 
     @PostMapping
     public ResponseEntity<MainQuestion> createQuestion(@RequestBody MainQuestion newQuestion) {
-        MainQuestion nq = new MainQuestion(newQuestion.getTopic(), newQuestion.getText(), newQuestion.getCreatedBy());
+        MainQuestion nq = new MainQuestion(newQuestion.getTopic(), newQuestion.getText());
         questionRepository.save(nq);
         return ResponseEntity.ok(nq);
     }

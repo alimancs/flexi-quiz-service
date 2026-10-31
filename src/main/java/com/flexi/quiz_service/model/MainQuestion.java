@@ -1,15 +1,13 @@
 package com.flexi.quiz_service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.flexi.quiz_service.types.QuestionDifficulty;
 import jakarta.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 
-enum Difficulty {
-    EASY,
-    AVERAGE,
-    HARD
-}
 
 @Entity
 @Table(name="questions", schema="question")
@@ -18,8 +16,9 @@ public class MainQuestion {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     
+    @Enumerated(EnumType.STRING)
     @Column(nullable=true)
-    private Difficulty difficulty;
+    private QuestionDifficulty difficulty;
     
     @ManyToOne(fetch=FetchType.LAZY, optional=false)
     @JoinColumn(name="topic_id", nullable=false)
@@ -28,25 +27,25 @@ public class MainQuestion {
 
     private String text;
     private Boolean active;
-    private String created_by;
 
     @Column(nullable=false, updatable=false)
     private Instant created_at;
 
     @Column(nullable=false)
     private Instant updated_at;
+
+    @OneToMany(mappedBy="question", cascade=CascadeType.ALL, orphanRemoval=true)
+    private List<MainQuestionOption> options = new ArrayList<>();
     
     public MainQuestion(){};
-    public MainQuestion(Topic topic, String text, String created_by) {
+    public MainQuestion(Topic topic, String text) {
         this.topic=topic;
         this.text=text;
-        this.created_by=created_by;
     }
-    public MainQuestion(Topic topic, String text, Difficulty difficulty, String created_by) {
+    public MainQuestion(Topic topic, String text, QuestionDifficulty difficulty) {
         this.topic=topic;
         this.text=text;
         this.difficulty=difficulty;
-        this.created_by=created_by;
     }
 
     @PrePersist
@@ -79,18 +78,11 @@ public class MainQuestion {
         this.text=newText;
     }
 
-    public Difficulty getDifficulty() {
+    public QuestionDifficulty getDifficulty() {
         return difficulty;
     }
-    public void setDifficulty(Difficulty newDifficulty) {
+    public void setDifficulty(QuestionDifficulty newDifficulty) {
         this.difficulty=newDifficulty;
-    }
-
-    public String getCreatedBy() {
-        return created_by;
-    }
-    public void setCreatedBy(String newCreatedBy) {
-        this.created_by=newCreatedBy;
     }
 
     public Boolean getActive() {
@@ -98,5 +90,13 @@ public class MainQuestion {
     }
     public void setActive(Boolean newActive) {
         this.active = newActive;
+    }
+
+    public void addOptions(MainQuestionOption option) {
+        options.add(option);
+        option.setQuestion(this);
+    }
+    public List<MainQuestionOption> getOptions() {
+        return options;
     }
 }

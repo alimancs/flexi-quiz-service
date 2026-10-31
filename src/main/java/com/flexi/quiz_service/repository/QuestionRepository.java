@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuestionRepository extends JpaRepository<MainQuestion, Long>{
     Page<MainQuestion>findByTopic_Id(Long topicId, Pageable pageable);
-    Page<MainQuestion>findByTopicIdAndText(Long topicId, String text, Pageable pageable);
+    Page<MainQuestion>findByTopic_IdAndText(Long topicId, String text, Pageable pageable);
 };

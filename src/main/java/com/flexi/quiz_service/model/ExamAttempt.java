@@ -30,33 +30,23 @@ public class ExamAttempt {
     private Instant expires_at;
     private Instant submitted_at;
     private Instant updated_at;
-    private Integer score;
-    private Integer max_score;
-    private Integer correct_count;
-    private Integer wrong_count;
-    private Integer unanswered_count;
+    private Integer score=0;
+    private Integer correct_count=0;
+    private Integer wrong_count=0;
+    private Integer unanswered_count=0;
 
     public ExamAttempt(){};
     public ExamAttempt(
         Long exam_id,
         Long student_id,
         String token_hash,
-        Instant expires_at,
-        Integer score,
-        Integer max_score,
-        Integer correct_count,
-        Integer wrong_count,
-        Integer unanswered_count
+        Instant expires_at
+
     ){
         this.exam_id=exam_id;
         this.student_id=student_id;
         this.token_hash=token_hash;
         this.expires_at=expires_at;
-        this.score=score;
-        this.max_score=max_score;
-        this.correct_count=correct_count;
-        this.wrong_count=wrong_count;
-        this.unanswered_count=unanswered_count;
     }
 
     @PrePersist
@@ -101,9 +91,6 @@ public class ExamAttempt {
 
     public Integer getCorrectCount(){ return correct_count; };
     public void setCorrectCount(Integer newCorrectCount){ this.correct_count=newCorrectCount; };
-
-    public Integer getMaxScore(){ return max_score; };
-    public void setMaxScore(Integer newMaxScore){ this.max_score=newMaxScore; };
 
     public Integer getWrongCount(){ return wrong_count; };
     public void setWrongCount(Integer newWrongCount){ this.wrong_count=newWrongCount; };

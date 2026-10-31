@@ -57,7 +57,7 @@ Base path: `/api/v1`. Roles: `LECTURER` for management, `STUDENT` for taking exa
 | GET | `/questions?topicId=&q=&page=` | Search/paginate |
 | GET | `/questions/{id}` | Get one |
 | PUT | `/questions/{id}` | Update |
-| DELETE | `/questions/{id}` | Soft delete (set `active=false`) |
+| DELETE | `/questions/{id}` | delete |
 
 **Exam management (lecturer)**
 
