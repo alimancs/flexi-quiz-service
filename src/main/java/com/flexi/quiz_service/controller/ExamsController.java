@@ -4,11 +4,13 @@ import com.flexi.quiz_service.dto.QuestionForExamDto;
 import com.flexi.quiz_service.dto.SetQuestionRequestDto;
 import com.flexi.quiz_service.model.Exam;
 import com.flexi.quiz_service.model.ExamAttempt;
+import com.flexi.quiz_service.model.Student;
 import com.flexi.quiz_service.repository.ExamAttemptRepository;
 import com.flexi.quiz_service.repository.ExamQuestionRepository;
 import com.flexi.quiz_service.repository.ExamRepository;
 import com.flexi.quiz_service.repository.QuestionOptionRepository;
 import com.flexi.quiz_service.repository.QuestionRepository;
+import com.flexi.quiz_service.repository.StudentRepository;
 import com.flexi.quiz_service.service.ExamQuestionService;
 import com.flexi.quiz_service.types.ExamStatus;
 import com.flexi.quiz_service.util.Generating;
@@ -32,6 +34,7 @@ public class ExamsController {
     private final QuestionOptionRepository questionOptionRepository;
     private final QuestionRepository questionRepository;
     private final ExamQuestionRepository examQuestionRepository;
+    private final StudentRepository studentRepository;
 
     private final ExamQuestionService examQuestionService;
 
@@ -41,7 +44,8 @@ public class ExamsController {
         ExamQuestionService examQuestionService,
         QuestionOptionRepository questionOptionRepository,
         QuestionRepository questionRepository,
-        ExamQuestionRepository examQuestionRepository
+        ExamQuestionRepository examQuestionRepository,
+        StudentRepository studentRepository
         ) {
         this.examRepository=examRepository;
         this.attemptRepository=attemptRepository;
@@ -49,6 +53,7 @@ public class ExamsController {
         this.questionOptionRepository=questionOptionRepository;
         this.questionRepository=questionRepository;
         this.examQuestionRepository=examQuestionRepository;
+        this.studentRepository=studentRepository;
     }
 
     @GetMapping("/{id}")
@@ -110,7 +115,10 @@ public class ExamsController {
         // Expires 2 hours from now
         Instant expiresAt = Instant.now().plus(2, ChronoUnit.HOURS);
 
-        ExamAttempt a = new ExamAttempt(examId, studentId, tokenHash, expiresAt);
+        Exam e = examRepository.findById(examId).orElseThrow(()->new RuntimeException("Exam with id: "+examId+" not found"));
+        Student s = studentRepository.findById(studentId).orElseThrow(()->new RuntimeException("Student with id: "+studentId+" not found"));
+
+        ExamAttempt a = new ExamAttempt(e, s, tokenHash, expiresAt);
 
         Map<String, Object> responseBody = Map.of(
             "attempId", a.getId(),

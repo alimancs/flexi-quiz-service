@@ -1,5 +1,6 @@
 package com.flexi.quiz_service.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.Instant;
 
@@ -16,11 +17,15 @@ public class ExamAttempt {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable=false)
-    private Long exam_id;
+    @ManyToOne(fetch=FetchType.LAZY, optional=false)
+    @JoinColumn(name="exam_id", nullable=false)
+    @JsonIgnore
+    private Exam exam;
 
-    @Column(nullable=false)
-    private Long student_id;
+    @ManyToOne(fetch=FetchType.LAZY, optional=false)
+    @JoinColumn(name="student_id", nullable=false)
+    @JsonIgnore
+    private Student student;
     
     @Column(unique=true, nullable=false)
     private String token_hash;
@@ -37,14 +42,14 @@ public class ExamAttempt {
 
     public ExamAttempt(){};
     public ExamAttempt(
-        Long exam_id,
-        Long student_id,
+        Exam exam,
+        Student student,
         String token_hash,
         Instant expires_at
 
     ){
-        this.exam_id=exam_id;
-        this.student_id=student_id;
+        this.exam=exam;
+        this.student=student;
         this.token_hash=token_hash;
         this.expires_at=expires_at;
     }
@@ -63,11 +68,11 @@ public class ExamAttempt {
 
     public Long getId(){ return id; };
 
-    public Long getExamId(){ return exam_id; };
-    public void setExamId(Long newExamId){ this.exam_id=newExamId; };
+    public Exam getExam(){ return exam; };
+    public void setExam(Exam newExam){ this.exam=newExam; };
 
-    public Long getStudentId(){ return student_id; };
-    public void setStudentId(Long newStudentId){ this.student_id=newStudentId; };
+    public Student getStudent(){ return student; };
+    public void setStudent(Student newStudent){ this.student=newStudent; };
 
     public String getTokenHash(){ return token_hash; };
     public void setTokenHash(String newTokenHash){ this.token_hash=newTokenHash; };

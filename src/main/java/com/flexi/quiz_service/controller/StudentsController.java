@@ -1,7 +1,13 @@
 package com.flexi.quiz_service.controller;
 
+import com.flexi.quiz_service.model.ExamAttempt;
 import com.flexi.quiz_service.model.Student;
 import com.flexi.quiz_service.repository.StudentRepository;
+import com.flexi.quiz_service.service.ExamAttemptService;
+import java.util.List;
+import java.util.Map;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -9,25 +15,39 @@ import org.springframework.web.bind.annotation.*;
 public class StudentsController {
     private final StudentRepository studentRepository;
 
-    public StudentsController(StudentRepository studentRepository) {
+    private final ExamAttemptService examAttemptService;
+
+    public StudentsController(StudentRepository studentRepository, ExamAttemptService examAttemptService) {
         this.studentRepository=studentRepository;
+        this.examAttemptService=examAttemptService;
     }
 
     @GetMapping("/{id}")
-    public Student getStudent(@PathVariable Long id) {
+    public ResponseEntity getStudent(@PathVariable Long id) {
         Student s = studentRepository.findById(id).orElse(null);
-        return s;
+        Map<String, Object> resBody = Map.of(
+            "student", s
+        );
+        return ResponseEntity.status(HttpStatus.OK).body(resBody);
     }
 
     @GetMapping("/{id}/attempts")
-    public String getStudentAttempts(@PathVariable String id) {
-        return "Success getting user attempts";
+    public ResponseEntity getStudentAttempts(@PathVariable Long id) {
+        List<ExamAttempt> attempts = examAttemptService.getAttemptsForStudent(id);
+        Map<String, Object> resBody = Map.of(
+            "attempts", attempts
+        );
+        return ResponseEntity.status(HttpStatus.OK).body(resBody);
     }
 
     @PostMapping
-    public Student createStudent(@RequestBody Student req) {
+    public ResponseEntity createStudent(@RequestBody Student req) {
         Student newStudent = new Student(req.getFullname(), req.getPassword(), req.getEmail());
-        return studentRepository.save(newStudent);
+        Student s = studentRepository.save(newStudent);
+        Map<String, Object> resBody = Map.of(
+            "student", s
+        );
+        return ResponseEntity.status(HttpStatus.OK).body(resBody);
     }
 
     
