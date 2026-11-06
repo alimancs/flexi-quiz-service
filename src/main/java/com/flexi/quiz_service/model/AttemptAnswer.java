@@ -32,6 +32,13 @@ public class AttemptAnswer {
 
     public AttemptAnswer(){};
     public AttemptAnswer(
+        Boolean is_correct,
+        Integer marks_awarded
+    ){
+        this.is_correct=is_correct;
+        this.marks_awarded=marks_awarded;
+    }
+    public AttemptAnswer(
         ExamAttempt attempt,
         MainQuestion question,
         Boolean is_correct,
@@ -70,7 +77,7 @@ public class AttemptAnswer {
     public Integer getMarksAwarded(){ return marks_awarded; };
     public void setMarksAwarded(Integer newMarksAwarded){ this.marks_awarded=newMarksAwarded; };
 
-    public MainQuestionOption getSelectedOptionId(){ return selected_option; };
+    public MainQuestionOption getSelectedOption(){ return selected_option; };
     public void setSelectedOptionId(MainQuestionOption newSelectedOption){ this.selected_option=newSelectedOption; };
 
 }

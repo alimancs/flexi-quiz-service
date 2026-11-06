@@ -53,6 +53,8 @@ Base path: `/api/v1`. Roles: `LECTURER` for management, `STUDENT` for taking exa
 |---|---|---|
 | POST | `/topics` | Create topic |
 | GET | `/topics` | List topics |
+| PUT | `/topics/{id}/name` | Update topic name |
+| PUT | `/topics/{id}/desc` | Update topic description |
 | POST | `/questions` | Create MCQ with options |
 | GET | `/questions?topicId=&q=&page=` | Search/paginate |
 | GET | `/questions/{id}` | Get one |

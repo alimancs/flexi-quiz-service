@@ -1,14 +1,10 @@
 package com.flexi.quiz_service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.flexi.quiz_service.types.AttemptStatus;
 import jakarta.persistence.*;
 import java.time.Instant;
 
-enum AttemptStatus {
-    IN_PROGRESS,
-    SUBMITTED,
-    EXPIRED
-}
 
 @Entity
 @Table(name="attempts", schema="attempt")
