@@ -6,7 +6,14 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name="attempt_answers", schema="attemptanswer")
+@Table(
+    name="attempt_answers", 
+    schema="attemptanswer",
+    uniqueConstraints = @UniqueConstraint(
+        name = "uk_attempt_question",
+        columnNames = {"attempt_id", "question_id"}
+    )
+    )
 public class AttemptAnswer {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -23,7 +30,7 @@ public class AttemptAnswer {
     private MainQuestion question;
 
     @ManyToOne(fetch=FetchType.LAZY, optional=false)
-    @JoinColumn(name="selected_option_id", nullable=true)
+    @JoinColumn(name="selected_option_id", nullable=false)
     @JsonIgnore
     private MainQuestionOption selected_option;
 
@@ -66,10 +73,10 @@ public class AttemptAnswer {
     public Long getId(){ return id; };
 
     public ExamAttempt getAttempt(){ return attempt; };
-    public void setAttemptId(ExamAttempt newAttempt){ this.attempt=newAttempt; };
+    public void setAttempt(ExamAttempt newAttempt){ this.attempt=newAttempt; };
 
     public MainQuestion getQuestion(){ return question; };
-    public void setQuestionid(MainQuestion newQuestion){ this.question=newQuestion; };
+    public void setQuestion(MainQuestion newQuestion){ this.question=newQuestion; };
 
     public Boolean getIsCorrect(){ return is_correct; };
     public void setIsCorrect(Boolean newIsCorrect){ this.is_correct=newIsCorrect; };
@@ -78,6 +85,6 @@ public class AttemptAnswer {
     public void setMarksAwarded(Integer newMarksAwarded){ this.marks_awarded=newMarksAwarded; };
 
     public MainQuestionOption getSelectedOption(){ return selected_option; };
-    public void setSelectedOptionId(MainQuestionOption newSelectedOption){ this.selected_option=newSelectedOption; };
+    public void setSelectedOption(MainQuestionOption newSelectedOption){ this.selected_option=newSelectedOption; };
 
 }
