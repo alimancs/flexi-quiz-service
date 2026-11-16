@@ -13,6 +13,7 @@ public interface ExamQuestionRepository extends JpaRepository<ExamQuestion, Long
         SELECT DISTINCT eq
         FROM ExamQuestion eq
         JOIN FETCH eq.question q
+        JOIN FETCH q.topic t
         LEFT JOIN FETCH q.options o
         WHERE eq.exam.id = :examId
             AND (q.active IS NULL or q.active=true)

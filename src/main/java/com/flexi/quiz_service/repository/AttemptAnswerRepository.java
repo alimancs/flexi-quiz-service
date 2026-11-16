@@ -1,6 +1,7 @@
 package com.flexi.quiz_service.repository;
 
 import com.flexi.quiz_service.model.AttemptAnswer;
+import com.flexi.quiz_service.types.AttemptStatus;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,6 +22,20 @@ public interface AttemptAnswerRepository extends JpaRepository<AttemptAnswer, Lo
         ORDER BY aa.id ASC, q.id ASC, so.id ASC
     """)
     List<AttemptAnswer> findForAttempt(@Param("attemptId") Long attemptId);
+
+    @Query("""
+        SELECT aa
+        FROM AttemptAnswer aa
+        JOIN FETCH aa.attempt ea
+        JOIN FETCH aa.question q
+        JOIN FETCH q.topic t
+        WHERE ea.exam.id = :examId
+            AND ea.status = :status
+    """)
+    List<AttemptAnswer> findForExamAndAttemptStatus(
+        @Param("examId") Long examId,
+        @Param("status") AttemptStatus status
+    );
 
     @Query("""
         SELECT aa

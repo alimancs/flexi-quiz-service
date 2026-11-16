@@ -11,11 +11,20 @@ import org.springframework.stereotype.Repository;
 public interface ExamAttemptRepository extends JpaRepository<ExamAttempt, Long>{
 
     @Query("""
-        SELECT DSITINCT ea
-        FROM Attempt ea
+        SELECT DISTINCT ea
+        FROM ExamAttempt ea
         JOIN FETCH ea.exam a
         WHERE ea.student.id = :studentId
         ORDER BY ea.id ASC, a.id ASC
     """)
     List<ExamAttempt> findForStudent(@Param("studentId") Long studentId);
+    
+    @Query("""
+        SELECT DISTINCT ea
+        FROM ExamAttempt ea
+        JOIN FETCH ea.exam a
+        WHERE ea.exam.id = :examId
+        ORDER BY ea.score DESC, ea.id DESC
+    """)
+    List<ExamAttempt> findForExamDescendingByScore(@Param("examId") Long examId);
 };

@@ -13,7 +13,7 @@ public class QuestionsController {
 
     public QuestionsController(QuestionRepository questionRepository) {
         this.questionRepository=questionRepository;
-    }
+    };
     
     // Get one question by id
     @GetMapping("{id}")
